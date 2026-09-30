@@ -51,7 +51,7 @@ class InventoryServiceTest {
         
         com.mams.backend.dto.DashboardMetricsResponse dummyMetrics = new com.mams.backend.dto.DashboardMetricsResponse();
         dummyMetrics.setClosingBalance(15);
-        when(dashboardService.getMetrics(anyLong(), anyLong())).thenReturn(dummyMetrics);
+        when(dashboardService.getMetrics(anyLong(), anyLong(), any(), any())).thenReturn(dummyMetrics);
 
         inventoryService.deductInventory(1L, 1L, 5);
 
@@ -75,7 +75,7 @@ class InventoryServiceTest {
 
         com.mams.backend.dto.DashboardMetricsResponse dummyMetrics = new com.mams.backend.dto.DashboardMetricsResponse();
         dummyMetrics.setClosingBalance(5);
-        when(dashboardService.getMetrics(anyLong(), anyLong())).thenReturn(dummyMetrics);
+        when(dashboardService.getMetrics(anyLong(), anyLong(), any(), any())).thenReturn(dummyMetrics);
 
         assertThrows(InsufficientStockException.class, () -> {
             inventoryService.deductInventory(1L, 1L, 10);
