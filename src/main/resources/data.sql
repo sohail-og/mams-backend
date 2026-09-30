@@ -22,17 +22,17 @@ INSERT INTO equipment_types (id, name, category) VALUES (16, 'Body Armor', 'GEAR
 
 -- Passwords are 'password' encoded with BCrypt
 INSERT INTO users (id, name, email, password_hash, role, base_id) 
-VALUES (1, 'Admin User', 'admin@mams.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HCGFGLwZi3O52eY2a758m', 'ADMIN', NULL)
+VALUES (1, 'Admin', 'admin@mams.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HCGFGLwZi3O52eY2a758m', 'ADMIN', NULL)
 ON DUPLICATE KEY UPDATE
 name = VALUES(name), email = VALUES(email), password_hash = VALUES(password_hash), role = VALUES(role), base_id = VALUES(base_id);
 
 INSERT INTO users (id, name, email, password_hash, role, base_id) 
-VALUES (2, 'Cmdr Alpha', 'cmdr.alpha@mams.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HCGFGLwZi3O52eY2a758m', 'BASE_COMMANDER', 1)
+VALUES (2, 'Base Commander', 'cmdr@mams.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HCGFGLwZi3O52eY2a758m', 'BASE_COMMANDER', 1)
 ON DUPLICATE KEY UPDATE
 name = VALUES(name), email = VALUES(email), password_hash = VALUES(password_hash), role = VALUES(role), base_id = VALUES(base_id);
 
 INSERT INTO users (id, name, email, password_hash, role, base_id) 
-VALUES (3, 'Logistics Beta', 'log.beta@mams.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HCGFGLwZi3O52eY2a758m', 'LOGISTICS_OFFICER', 2)
+VALUES (3, 'Logistics Officer', 'logi@mams.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HCGFGLwZi3O52eY2a758m', 'LOGISTICS_OFFICER', 2)
 ON DUPLICATE KEY UPDATE
 name = VALUES(name), email = VALUES(email), password_hash = VALUES(password_hash), role = VALUES(role), base_id = VALUES(base_id);
 
@@ -52,3 +52,17 @@ INSERT INTO personnel_units (id, name) VALUES (13, 'Rajputana Rifles') ON DUPLIC
 INSERT INTO personnel_units (id, name) VALUES (14, 'Sikh Regiment') ON DUPLICATE KEY UPDATE name = VALUES(name);
 INSERT INTO personnel_units (id, name) VALUES (15, 'Gorkha Rifles') ON DUPLICATE KEY UPDATE name = VALUES(name);
 INSERT INTO personnel_units (id, name) VALUES (16, 'Ladakh Scouts') ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+
+
+-- Also add this to inventory to ensure base/equipment combination has the opening quantity if no transactions exist yet.
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (1, 1, 50) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (1, 2, 30) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (1, 4, 40) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);
+
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (2, 1, 40) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (2, 5, 10) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);
+
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (3, 3, 35) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);
+
+INSERT INTO inventory (base_id, equipment_type_id, quantity) VALUES (4, 6, 15) ON DUPLICATE KEY UPDATE quantity = VALUES(quantity);

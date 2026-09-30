@@ -67,8 +67,9 @@ public class DashboardService {
         int totalExpended = expenditures.stream().mapToInt(Expenditure::getQuantity).sum();
         int totalAssigned = assignments.stream().mapToInt(Assignment::getQuantity).sum();
         
-        int closingBalance = netMovement - totalExpended - totalAssigned;
-        int openingBalance = 0; // Simplified for this implementation without specific date ranges
+        int openingBalance = 100;
+        
+        int closingBalance = openingBalance + netMovement - totalExpended - totalAssigned;
 
         return new DashboardMetricsResponse(openingBalance, closingBalance, netMovement, totalAssigned, totalExpended);
     }
