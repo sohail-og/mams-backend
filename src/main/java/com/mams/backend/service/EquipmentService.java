@@ -30,7 +30,7 @@ public class EquipmentService {
         List<EquipmentType> equipmentTypes = equipmentTypeRepository.findAll();
         
         return equipmentTypes.stream().map(type -> {
-            DashboardMetricsResponse metrics = dashboardService.getMetrics(null, type.getId());
+            DashboardMetricsResponse metrics = dashboardService.getMetrics(null, type.getId(), null, null);
             int totalQuantity = metrics.getOpeningBalance() + metrics.getNetMovement();
             int availableQuantity = metrics.getClosingBalance();
             String status = availableQuantity > 0 ? "Available" : "Out of Stock";
@@ -61,7 +61,7 @@ public class EquipmentService {
 
         for (Base base : bases) {
             for (EquipmentType type : equipmentTypes) {
-                DashboardMetricsResponse metrics = dashboardService.getMetrics(base.getId(), type.getId());
+                DashboardMetricsResponse metrics = dashboardService.getMetrics(base.getId(), type.getId(), null, null);
                 
                 int totalQuantity = metrics.getOpeningBalance() + metrics.getNetMovement();
                 int availableQuantity = metrics.getClosingBalance();

@@ -28,7 +28,7 @@ public class InventoryService {
     }
 
     public int getAvailableBalance(Long baseId, Long equipmentTypeId) {
-        DashboardMetricsResponse metrics = dashboardService.getMetrics(baseId, equipmentTypeId);
+        DashboardMetricsResponse metrics = dashboardService.getMetrics(baseId, equipmentTypeId, null, null);
         return metrics.getClosingBalance();
     }
 

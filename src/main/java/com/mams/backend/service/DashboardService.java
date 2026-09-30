@@ -29,7 +29,7 @@ public class DashboardService {
         this.expenditureRepository = expenditureRepository;
     }
 
-    public DashboardMetricsResponse getMetrics(Long baseId, Long equipmentTypeId) {
+    public DashboardMetricsResponse getMetrics(Long baseId, Long equipmentTypeId, String startDate, String endDate) {
         List<Purchase> purchases = purchaseRepository.findAll();
         List<Transfer> transfers = transferRepository.findAll();
         List<Assignment> assignments = assignmentRepository.findAll();
@@ -47,6 +47,22 @@ public class DashboardService {
             transfers = transfers.stream().filter(t -> t.getEquipmentType().getId().equals(equipmentTypeId)).collect(Collectors.toList());
             assignments = assignments.stream().filter(a -> a.getEquipmentType().getId().equals(equipmentTypeId)).collect(Collectors.toList());
             expenditures = expenditures.stream().filter(e -> e.getEquipmentType().getId().equals(equipmentTypeId)).collect(Collectors.toList());
+        }
+
+        if (startDate != null && !startDate.isEmpty()) {
+            java.time.LocalDate start = java.time.LocalDate.parse(startDate);
+            purchases = purchases.stream().filter(p -> !p.getDate().toLocalDate().isBefore(start)).collect(Collectors.toList());
+            transfers = transfers.stream().filter(t -> !t.getDate().toLocalDate().isBefore(start)).collect(Collectors.toList());
+            assignments = assignments.stream().filter(a -> !a.getDate().toLocalDate().isBefore(start)).collect(Collectors.toList());
+            expenditures = expenditures.stream().filter(e -> !e.getDate().toLocalDate().isBefore(start)).collect(Collectors.toList());
+        }
+
+        if (endDate != null && !endDate.isEmpty()) {
+            java.time.LocalDate end = java.time.LocalDate.parse(endDate);
+            purchases = purchases.stream().filter(p -> !p.getDate().toLocalDate().isAfter(end)).collect(Collectors.toList());
+            transfers = transfers.stream().filter(t -> !t.getDate().toLocalDate().isAfter(end)).collect(Collectors.toList());
+            assignments = assignments.stream().filter(a -> !a.getDate().toLocalDate().isAfter(end)).collect(Collectors.toList());
+            expenditures = expenditures.stream().filter(e -> !e.getDate().toLocalDate().isAfter(end)).collect(Collectors.toList());
         }
 
         int totalPurchases = purchases.stream().mapToInt(Purchase::getQuantity).sum();

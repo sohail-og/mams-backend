@@ -20,8 +20,10 @@ public class DashboardController {
     @PreAuthorize("hasAnyRole('ADMIN', 'BASE_COMMANDER')")
     public ResponseEntity<DashboardMetricsResponse> getMetrics(
             @RequestParam(required = false) Long baseId,
-            @RequestParam(required = false) Long equipmentTypeId) {
+            @RequestParam(required = false) Long equipmentTypeId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
         
-        return ResponseEntity.ok(dashboardService.getMetrics(baseId, equipmentTypeId));
+        return ResponseEntity.ok(dashboardService.getMetrics(baseId, equipmentTypeId, startDate, endDate));
     }
 }
